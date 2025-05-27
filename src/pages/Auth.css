@@ -1,0 +1,450 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.auth-container {
+  background: #1F2937;
+  color: #fff;
+  padding: 32px 24px;
+  border-radius: 12px;
+  width: 350px;
+  margin: 60px auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 0;
+  align-items: stretch;
+}
+
+.auth-form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  background: #111827;
+  color: #fff;
+  font-size: 1em;
+}
+
+.auth-form button {
+  background: #3B82F6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.auth-form button:hover {
+  background: #2563eb;
+}
+
+.auth-container a {
+  color: #3B82F6;
+  text-decoration: underline;
+}
+
+.auth-container.card {
+  background: #232b36;
+  color: #fff;
+  padding: 40px 32px 32px 32px;
+  border-radius: 18px;
+  width: 420px;
+  max-width: 95vw;
+  margin: 60px auto;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  text-align: center;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.6em;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.auth-container.card h2 {
+  margin: 0 0 8px 0;
+  font-size: 2em;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-title-separator {
+  width: 100%;
+  height: 1.5px;
+  background: #374151;
+  margin: 0 0 24px 0;
+  border: none;
+  opacity: 0.7;
+}
+
+.auth-form label {
+  font-size: 1.1em;
+  margin-bottom: 4px;
+  color: #e5e7eb;
+  text-align: left;
+}
+
+.auth-form input[type="email"],
+.auth-form input[type="password"],
+.auth-form input[type="text"] {
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #1a202c;
+  color: #fff;
+  font-size: 1.1em;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #aaa;
+  user-select: none;
+}
+
+.auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  color: #e5e7eb;
+}
+
+.remember-me input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #3B82F6;
+}
+
+.forgot-link {
+  color: #3B82F6;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  background: #4f7cff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 0;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+.login-btn:hover {
+  background: #3B82F6;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 24px;
+  color: #cbd5e1;
+}
+
+.signup-link a {
+  color: #3B82F6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+.signup-names-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.signup-name-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .auth-container.card {
+    width: 98vw;
+    padding: 24px 4vw 24px 4vw;
+  }
+  .signup-names-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.auth-container.signup-card {
+  width: 540px;
+  max-width: 98vw;
+}
+
+.signup-names-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+  align-items: stretch;
+}
+
+@media (max-width: 700px) {
+  .auth-container.signup-card {
+    width: 98vw;
+    padding: 24px 4vw 24px 4vw;
+  }
+  .signup-names-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.password-strength {
+  display: flex;
+  gap: 4px;
+  margin: 8px 0;
+  height: 4px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 100%;
+  background: #374151;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.strength-bar.active {
+  background: #3B82F6;
+}
+
+.password-requirements {
+  text-align: left;
+  margin: 12px 0;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.password-requirements p {
+  margin: 6px 0;
+  color: #9ca3af;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.password-requirements p::before {
+  content: "•";
+  margin-right: 8px;
+  color: #9ca3af;
+}
+
+.password-requirements .requirement-met {
+  color: #10b981;
+}
+
+.password-requirements .requirement-met::before {
+  color: #10b981;
+}
+
+body.light-theme .password-requirements {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .password-requirements p {
+  color: #6b7280;
+}
+
+body.light-theme .password-requirements p::before {
+  color: #6b7280;
+}
+
+body.light-theme .password-requirements .requirement-met {
+  color: #059669;
+}
+
+body.light-theme .password-requirements .requirement-met::before {
+  color: #059669;
+}
+
+/* Light theme styles */
+body.light-theme .auth-container.card {
+    background: #ffffff;
+    color: #1f2937;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+}
+
+body.light-theme .auth-container.card h2 {
+    color: #1f2937;
+}
+
+body.light-theme .auth-title-separator {
+    background: #e5e7eb;
+}
+
+body.light-theme .auth-form input[type="email"],
+body.light-theme .auth-form input[type="password"],
+body.light-theme .auth-form input[type="text"] {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    color: #1f2937;
+}
+
+body.light-theme .auth-form label {
+    color: #4b5563;
+}
+
+body.light-theme .remember-me {
+    color: #4b5563;
+}
+
+body.light-theme .close-btn {
+    color: #6b7280;
+}
+
+body.light-theme .signup-link {
+    color: #6b7280;
+    margin-top: 24px;
+}
+
+body.light-theme .auth-form select {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    color: #1f2937;
+}
+
+body.light-theme .auth-form select:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+body.light-theme .auth-options {
+    margin-top: 12px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  text-align: center;
+  border: 1px solid #ef9a9a;
+  font-size: 14px;
+}
+
+.password-requirements-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e0e0e0; /* Light background color */
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.password-requirements-summary .strength-label {
+  font-weight: bold;
+  margin-right: 15px;
+  color: #333; /* Dark text for light background */
+}
+
+.password-requirements-summary .requirements-row {
+  display: flex;
+  gap: 12px; /* Space between requirement items */
+  flex-grow: 1; /* Allow it to take available space */
+  flex-wrap: wrap; /* Wrap on smaller screens */
+}
+
+.password-requirements-summary .requirements-row span {
+  color: #757575; /* Default color for requirements */
+}
+
+.password-requirements-summary .requirements-row span.requirement-met {
+  color: #4CAF50; /* Green color when requirement is met */
+}
+
+.password-requirements-summary .info-icon {
+  margin-left: 15px;
+  font-size: 1.1em;
+  color: #757575; /* Color for info icon */
+}
+
+/* Light theme specific styles for the summary */
+body.light-theme .password-requirements-summary {
+  background-color: #f5f5f5; /* Slightly lighter background in light theme */
+  color: #333; /* Dark text */
+}
+
+body.light-theme .password-requirements-summary .strength-label {
+  color: #333; /* Dark text */
+}
+
+body.light-theme .password-requirements-summary .requirements-row span {
+  color: #757575; /* Default color */
+}
+
+body.light-theme .password-requirements-summary .requirements-row span.requirement-met {
+  color: #388E3C; /* Darker green in light theme */
+}
+
+body.light-theme .password-requirements-summary .info-icon {
+   color: #757575; /* Color for info icon */
+}

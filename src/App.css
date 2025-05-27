@@ -1,0 +1,10 @@
+body{
+  width: 99vw;
+  height: 200vh;
+    overflow-x: hidden;
+  background-color: #111827;
+  font-family: 'Inter', sans-serif;
+}
+button:hover{
+  cursor: pointer;
+}

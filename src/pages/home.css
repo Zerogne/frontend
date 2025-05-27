@@ -1,0 +1,221 @@
+body{
+  width: 100%;/* Use 100% width */
+  overflow-x: hidden;
+  background-color: #111827;
+  font-family: 'Inter', sans-serif;
+  color: #e5e7eb;
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+}
+
+body.light-theme {
+    background-color: #f3f4f6; /* White background for body in light mode */
+    color: #1f2937; /* Dark text color for body in light mode */
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.home-container {
+  display: none; /* Hide the old container */
+}
+
+.main-content {
+  display: none; /* Hide the old content area */
+}
+
+.main-content-wrapper {
+  margin-left: 27px;
+  padding-top: 82px;
+  min-height: 100vh;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+}
+
+.main-content-wrapper.sidebar-closed {
+  margin-left: 0;
+  background-color: transparent;
+}
+
+.posts-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: transparent;
+}
+
+.search-results-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+body.light-theme .main-content-wrapper {
+  background-color: #f3f4f6;
+}
+
+body.light-theme .search-results-title {
+  color: #1f2937;
+}
+
+/* Post card styles */
+.post-card {
+  background: #374151;
+  color: #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body.light-theme .post-card {
+  background: #ffffff;
+  color: #1f2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-header h3 {
+  color: #f3f4f6;
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #9ca3af;
+  margin-bottom: 15px;
+  font-size: 0.875rem;
+}
+
+.school-name {
+  color: #60a5fa;
+  font-weight: 500;
+}
+
+.post-date {
+  color: #9ca3af;
+}
+
+.post-content {
+  color: #d1d5db;
+  margin-bottom: 15px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #4b5563;
+}
+
+.star {
+  color: #4b5563;
+  font-size: 1.25rem;
+}
+
+.star.filled {
+  color: #fbbf24;
+}
+
+.anonymous-badge {
+  background: #4b5563;
+  color: #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.loading, .error, .no-posts {
+  color: #9ca3af;
+  text-align: center;
+  padding: 20px;
+  font-size: 1rem;
+}
+
+.error {
+  color: #ef4444;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .main-content-wrapper {
+    margin-left: 280px;
+  }
+  
+  .posts-container {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-content-wrapper {
+    margin-left: 280px;
+  }
+  
+  .posts-container {
+    max-width: 600px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content-wrapper {
+    margin-left: 0;
+    padding-top: 70px;
+  }
+  
+  .posts-container {
+    max-width: 100%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content-wrapper {
+    padding-top: 60px;
+  }
+  
+  .posts-container {
+    padding: 10px;
+  }
+}
+
+/* Light theme styles */
+body.light-theme .main-content-wrapper {
+  background-color: #f3f4f6;
+}
+
+/* Search results title styles */
+body.light-theme .search-results-title {
+  color: #1f2937;
+}
+
+@media (max-width: 768px) {
+  .search-results-title {
+    font-size: 20px;
+    margin: 15px 0;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-results-title {
+    font-size: 18px;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+}
