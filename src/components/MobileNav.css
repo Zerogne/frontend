@@ -28,7 +28,8 @@
   gap: 4px;
 }
 
-.nav-item span:first-child {
+.nav-item span:first-child,
+.nav-item i {
   font-size: 1.5em;
   margin: 0;
   display: flex;
@@ -37,6 +38,38 @@
   width: 24px;
   height: 24px;
   color: inherit;
+}
+
+/* Material Icons styles */
+.material-symbols--person-rounded,
+.material-symbols--account-circle {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols--person-rounded::before {
+  content: 'person';
+}
+
+.material-symbols--account-circle::before {
+  content: 'account_circle';
+}
+
+/* Font Awesome icon styles */
+.fa-sign-in-alt {
+  font-size: 24px;
+  line-height: 1;
 }
 
 .nav-item span:last-child {

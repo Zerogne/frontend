@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './MobileNav.css';
 import CreatePostModal from './CreatePostModal';
+import { auth } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const MobileNav = () => {
   const location = useLocation();
@@ -10,6 +12,7 @@ const MobileNav = () => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme === 'dark';
   });
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -65,10 +68,17 @@ const MobileNav = () => {
           <span className="solar--medal-ribbon-bold"></span>
           <span>Top Rated</span>
         </Link>
-        <Link to="/profile" className={`nav-item ${location.pathname === '/profile' ? 'active' : ''}`}>
-          <span className="material-symbols--person-rounded"></span>
-          <span>Profile</span>
-        </Link>
+        {user ? (
+          <Link to="/profile" className={`nav-item ${location.pathname === '/profile' ? 'active' : ''}`}>
+            <span className="material-symbols--person-rounded"></span>
+            <span>Profile</span>
+          </Link>
+        ) : (
+          <Link to="/login" className={`nav-item ${location.pathname === '/login' ? 'active' : ''}`}>
+            <i className="fas fa-sign-in-alt"></i>
+            <span>Account</span>
+          </Link>
+        )}
         {showCreatePostModal && <CreatePostModal onClose={handleCloseCreatePostModal} />}
       </div>
     </>

@@ -4,6 +4,7 @@ import Popular from './pages/Popular.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/SignUp.jsx';
 import SearchResults from './pages/SearchResults.jsx';
+import Profile from './pages/Profile.jsx';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/popular" element={<Popular />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
