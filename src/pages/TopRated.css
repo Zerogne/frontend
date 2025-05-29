@@ -10,14 +10,130 @@
   font-size: 24px;
 }
 
-.posts-grid {
+.schools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 24px;
   padding: 16px 0;
 }
 
-.no-posts-message {
+.school-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.school-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.school-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.school-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.school-type {
+  display: flex;
+  align-items: center;
+}
+
+.type-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.type-badge.public {
+  background-color: #10B981;
+  color: white;
+}
+
+.type-badge.private {
+  background-color: #6366F1;
+  color: white;
+}
+
+.school-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.school-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.school-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+.location-icon {
+  font-size: 16px;
+}
+
+.school-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-stars .star {
+  color: #9CA3AF;
+  font-size: 18px;
+}
+
+.rating-stars .star.filled {
+  color: #FCD34D;
+}
+
+.rating-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rating-count {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.loading, .error, .no-schools-message {
   grid-column: 1 / -1;
   text-align: center;
   padding: 48px;
@@ -27,10 +143,43 @@
   border: 1px solid var(--border-color);
 }
 
+.error {
+  color: #dc3545;
+}
+
+/* Light theme styles */
+body.light-theme .school-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+body.light-theme .school-header h2 {
+  color: #1f2937;
+}
+
+body.light-theme .school-description,
+body.light-theme .school-location {
+  color: #6b7280;
+}
+
+body.light-theme .school-rating {
+  border-top-color: #e5e7eb;
+}
+
+body.light-theme .rating-value {
+  color: #1f2937;
+}
+
+body.light-theme .rating-count {
+  color: #6b7280;
+}
+
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
   .top-rated-container {
     padding: 16px;
+    margin-top: 56px;
+    margin-bottom: 60px;
   }
 
   .top-rated-container h1 {
@@ -38,7 +187,88 @@
     margin-bottom: 16px;
   }
 
-  .posts-grid {
+  .schools-grid {
+    grid-template-columns: 1fr;
     gap: 16px;
+    padding: 0;
+  }
+
+  .school-card {
+    padding: 16px;
+    margin: 0;
+    border-radius: 8px;
+  }
+
+  .school-header h2 {
+    font-size: 16px;
+  }
+
+  .type-badge {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .school-description,
+  .school-location {
+    font-size: 13px;
+  }
+
+  .rating-stars .star {
+    font-size: 16px;
+  }
+
+  .rating-value {
+    font-size: 14px;
+  }
+
+  .rating-count {
+    font-size: 12px;
+  }
+
+  .loading, .error, .no-schools-message {
+    padding: 24px;
+    margin: 16px 0;
+  }
+}
+
+/* Small Mobile Devices */
+@media screen and (max-width: 480px) {
+  .top-rated-container {
+    padding: 12px;
+  }
+
+  .top-rated-container h1 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .school-card {
+    padding: 12px;
+  }
+
+  .school-header h2 {
+    font-size: 15px;
+  }
+
+  .type-badge {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  .school-description,
+  .school-location {
+    font-size: 12px;
+  }
+
+  .rating-stars .star {
+    font-size: 14px;
+  }
+
+  .rating-value {
+    font-size: 13px;
+  }
+
+  .rating-count {
+    font-size: 11px;
   }
 } 

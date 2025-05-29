@@ -231,8 +231,8 @@ const PostBox = ({ post, onEditClick, onDeleteClick, currentUserId, onPostUpdate
             
             {showDropdown && (
               <div className="dropdown-menu">
-                <button key="edit" onClick={handleEdit}>Edit</button>
-                <button key="delete" onClick={handleDelete}>Delete</button>
+                <button key={`edit-${post._id}`} onClick={handleEdit}>Edit</button>
+                <button key={`delete-${post._id}`} onClick={handleDelete}>Delete</button>
               </div>
             )}
           </div>
@@ -276,7 +276,7 @@ const PostBox = ({ post, onEditClick, onDeleteClick, currentUserId, onPostUpdate
               <div className="post-rating">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
-                    key={star}
+                    key={`star-${post._id}-${star}`}
                     className={`star ${star <= post.rating ? 'filled' : ''}`}
                   >
                     ★

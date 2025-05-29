@@ -12,6 +12,28 @@ const CreatePostModal = ({ onClose, postToEdit, onPostUpdated }) => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user] = useAuthState(auth);
+  const [schools, setSchools] = useState([]);
+  const [loadingSchools, setLoadingSchools] = useState(true);
+
+  useEffect(() => {
+    const fetchSchools = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/posts/schools');
+        if (!response.ok) {
+          throw new Error('Failed to fetch schools');
+        }
+        const data = await response.json();
+        setSchools(data);
+      } catch (error) {
+        console.error('Error fetching schools:', error);
+        setError('Failed to load schools. Please try again.');
+      } finally {
+        setLoadingSchools(false);
+      }
+    };
+
+    fetchSchools();
+  }, []);
 
   useEffect(() => {
     if (postToEdit) {
@@ -90,9 +112,6 @@ const CreatePostModal = ({ onClose, postToEdit, onPostUpdated }) => {
     }
   };
 
-  // TODO: Replace with actual school data from a source (backend API, local list, etc.)
-  const schools = ['School 1', 'School 2', 'School 3', 'Another School'];
-
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -109,11 +128,13 @@ const CreatePostModal = ({ onClose, postToEdit, onPostUpdated }) => {
                 value={schoolName}
                 onChange={(e) => setSchoolName(e.target.value)}
                 required
-                disabled={isSubmitting}
+                disabled={isSubmitting || loadingSchools}
               >
                 <option value="">Select School</option>
                 {schools.map(school => (
-                  <option key={school} value={school}>{school}</option>
+                  <option key={school.name} value={school.name}>
+                    {school.name} ({school.type})
+                  </option>
                 ))}
               </select>
             </div>

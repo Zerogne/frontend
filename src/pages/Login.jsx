@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase'; // ✅ CORRECT
+import { Link } from 'react-router-dom';
 
 
 const Login = ({ onLogin }) => {
@@ -113,7 +114,7 @@ const Login = ({ onLogin }) => {
         </button>
       </form>
       <p>
-        Don't have an account? <a href="/signup">Sign up</a>
+        Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
     </div>
   );

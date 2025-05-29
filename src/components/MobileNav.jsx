@@ -64,21 +64,21 @@ const MobileNav = () => {
           <span className="line-md--plus"></span>
           <span>Create</span>
         </button>
-        <Link to="/top-rated" className={`nav-item ${location.pathname === '/top-rated' ? 'active' : ''}`}>
+        <Link to="/topRated" className={`nav-item ${location.pathname === '/topRated' ? 'active' : ''}`}>
           <span className="solar--medal-ribbon-bold"></span>
           <span>Top Rated</span>
         </Link>
-        {user ? (
+          {user ? (
           <Link to="/profile" className={`nav-item ${location.pathname === '/profile' ? 'active' : ''}`}>
             <span className="material-symbols--person-rounded"></span>
             <span>Profile</span>
           </Link>
-        ) : (
+          ) : (
           <Link to="/login" className={`nav-item ${location.pathname === '/login' ? 'active' : ''}`}>
             <i className="fas fa-sign-in-alt"></i>
             <span>Account</span>
           </Link>
-        )}
+          )}
         {showCreatePostModal && <CreatePostModal onClose={handleCloseCreatePostModal} />}
       </div>
     </>

@@ -6,8 +6,9 @@ import PostList from '../components/PostList';
 import MobileNav from '../components/MobileNav';
 import { useState, useEffect } from 'react';
 
-function Home() {
+const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [selectedSchoolType, setSelectedSchoolType] = useState('All Schools');
 
   useEffect(() => {
     // Check if we're on mobile
@@ -27,13 +28,17 @@ function Home() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleFilterChange = (schoolType) => {
+    setSelectedSchoolType(schoolType);
+  };
+
   return (
     <>
       <Header onMenuClick={toggleSidebar} />
-      <Side isOpen={isSidebarOpen} />
+      <Side isOpen={isSidebarOpen} onFilterChange={handleFilterChange} />
       <div className="main-content-wrapper">
         <div className="posts-container">
-          <PostList />
+          <PostList schoolType={selectedSchoolType} />
         </div>
       </div>
       <MobileNav />

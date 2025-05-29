@@ -5,7 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import PostBox from './PostBox';
 import CreatePostModal from './CreatePostModal';
 
-const PostList = ({ searchQuery }) => {
+const PostList = ({ searchQuery, schoolType }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -17,32 +17,33 @@ const PostList = ({ searchQuery }) => {
   useEffect(() => {
     if (searchQuery) {
       fetchSearchResults();
+    } else if (schoolType) {
+      fetchFilteredPosts();
     } else {
       fetchPosts();
     }
-  }, [searchQuery]);
+  }, [searchQuery, schoolType]);
 
   useEffect(() => {
     const fetchNames = async () => {
-        const userNamesMap = {};
-        for (const post of posts) {
-          if (!post.postAnonymously && post.userId && !userNamesMap[post.userId]) {
-             try {
-                const userName = await fetchUserInfo(post.userId);
-                userNamesMap[post.userId] = userName;
-             } catch (error) {
-                 console.error(`Error fetching user info for ${post.userId}:`, error);
-                 userNamesMap[post.userId] = 'User';
-             }
+      const userNamesMap = {};
+      for (const post of posts) {
+        if (!post.postAnonymously && post.userId && !userNamesMap[post.userId]) {
+          try {
+            const userName = await fetchUserInfo(post.userId);
+            userNamesMap[post.userId] = userName;
+          } catch (error) {
+            console.error(`Error fetching user info for ${post.userId}:`, error);
+            userNamesMap[post.userId] = 'User';
           }
         }
-        setUserNames(userNamesMap);
+      }
+      setUserNames(userNamesMap);
     };
 
     if (posts.length > 0) {
       fetchNames();
     }
-
   }, [posts]);
 
   const fetchUserInfo = async (userId) => {
@@ -84,13 +85,46 @@ const PostList = ({ searchQuery }) => {
       }
 
       console.log('Received posts:', data);
-
       const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setPosts(sortedPosts);
 
     } catch (err) {
       console.error('Error fetching posts:', err);
       setError(err.message || 'Failed to load posts. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchFilteredPosts = async () => {
+    try {
+      console.log('Fetching filtered posts for school type:', schoolType);
+      setLoading(true);
+      setError('');
+
+      const response = await fetch(`http://localhost:3000/api/posts/filter?schoolType=${encodeURIComponent(schoolType)}`);
+      console.log('Filter response status:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Filter error response:', errorData);
+        throw new Error(errorData.message || 'Failed to fetch filtered posts');
+      }
+
+      const data = await response.json();
+      console.log('Received filtered posts:', data);
+      
+      if (Array.isArray(data)) {
+        const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setPosts(sortedPosts);
+      } else {
+        throw new Error('Invalid response format');
+      }
+
+    } catch (err) {
+      console.error('Error fetching filtered posts:', err);
+      setError(err.message || 'Failed to load filtered posts. Please try again.');
+      setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -120,9 +154,9 @@ const PostList = ({ searchQuery }) => {
   };
 
   const handlePostUpdated = (updatedPost) => {
-      setPosts(posts.map(post => 
-          post._id === updatedPost._id ? updatedPost : post
-      ));
+    setPosts(posts.map(post => 
+      post._id === updatedPost._id ? updatedPost : post
+    ));
   };
 
   const handleEditClick = (post) => {
@@ -138,7 +172,6 @@ const PostList = ({ searchQuery }) => {
     
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        // Get the Firebase ID token
         const token = await user.getIdToken();
         
         const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
@@ -156,8 +189,8 @@ const PostList = ({ searchQuery }) => {
         console.log('Post deleted successfully:', postId);
         setPosts(posts.filter(post => post._id !== postId));
         if (postToEdit?._id === postId) {
-            setIsModalOpen(false);
-            setPostToEdit(null);
+          setIsModalOpen(false);
+          setPostToEdit(null);
         }
 
       } catch (err) {
@@ -203,26 +236,26 @@ const PostList = ({ searchQuery }) => {
           <PostBox 
             key={post._id} 
             post={{
-                ...post,
-                author: getUserDisplayName(post),
-                date: post.createdAt
+              ...post,
+              author: getUserDisplayName(post),
+              date: post.createdAt
             }}
             onEditClick={handleEditClick}
             onDeleteClick={handleDeleteClick}
             currentUserId={user?.uid}
             onPostUpdated={handlePostUpdated}
+            fetchUserInfo={fetchUserInfo}
           />
         );
       })}
 
       {isModalOpen && (
-          <CreatePostModal
-              onClose={handleModalClose}
-              postToEdit={postToEdit}
-              onPostUpdated={fetchPosts}
-          />
+        <CreatePostModal
+          onClose={handleModalClose}
+          postToEdit={postToEdit}
+          onPostUpdated={fetchPosts}
+        />
       )}
-
     </div>
   );
 };
