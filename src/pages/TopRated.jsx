@@ -50,15 +50,21 @@ const TopRated = () => {
         const schoolsWithRatings = await Promise.all(
           data.map(async (school) => {
             try {
-              const ratingsResponse = await fetch(`http://localhost:3000/api/posts/school-ratings/${school.name}`);
+              console.log(`Fetching ratings for school: ${school.name}`);
+              const ratingsResponse = await fetch(`http://localhost:3000/api/posts/school-ratings/${encodeURIComponent(school.name)}`);
+              console.log(`Ratings response for ${school.name}:`, ratingsResponse.status);
+              
               if (!ratingsResponse.ok) {
-                throw new Error('Failed to fetch ratings');
+                console.error(`Failed to fetch ratings for ${school.name}. Status:`, ratingsResponse.status);
+                throw new Error(`Failed to fetch ratings: ${ratingsResponse.status}`);
               }
               const ratingsData = await ratingsResponse.json();
+              console.log(`Ratings data for ${school.name}:`, ratingsData);
+              
               return {
                 ...school,
-                averageRating: ratingsData.averageRating || 0,
-                totalReviews: ratingsData.totalReviews || 0
+                averageRating: parseFloat(ratingsData.averageRating) || 0,
+                totalReviews: parseInt(ratingsData.totalReviews) || 0
               };
             } catch (error) {
               console.error(`Error fetching ratings for ${school.name}:`, error);
@@ -71,11 +77,19 @@ const TopRated = () => {
           })
         );
         
+        console.log('Schools with ratings:', schoolsWithRatings);
+        
         // After fetching and combining schools with their ratings
         const sortedSchools = schoolsWithRatings.sort((a, b) => {
-          return (b.averageRating || 0) - (a.averageRating || 0);
+          // First sort by average rating (highest first)
+          const ratingDiff = (b.averageRating || 0) - (a.averageRating || 0);
+          if (ratingDiff !== 0) return ratingDiff;
+          
+          // If ratings are equal, sort by number of reviews (highest first)
+          return (b.totalReviews || 0) - (a.totalReviews || 0);
         });
         
+        console.log('Sorted schools:', sortedSchools);
         setSchools(sortedSchools);
       } catch (err) {
         console.error('Error fetching schools:', err);

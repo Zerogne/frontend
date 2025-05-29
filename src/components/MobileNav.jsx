@@ -8,31 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 const MobileNav = () => {
   const location = useLocation();
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark';
-  });
   const [user] = useAuthState(auth);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.body.className = savedTheme === 'dark' ? 'dark-theme' : 'light-theme';
-      setIsDarkTheme(savedTheme === 'dark');
-    } else {
-      // Set default theme to light if no theme is saved
-      document.body.className = 'light-theme';
-      localStorage.setItem('theme', 'light');
-      setIsDarkTheme(false);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = isDarkTheme ? 'light' : 'dark';
-    document.body.className = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
-    localStorage.setItem('theme', newTheme);
-    setIsDarkTheme(!isDarkTheme);
-  };
 
   const handleCreatePostClick = () => {
     setShowCreatePostModal(true);
@@ -44,13 +20,6 @@ const MobileNav = () => {
 
   return (
     <>
-      <button className="theme-toggle-btn" onClick={toggleTheme}>
-        {isDarkTheme ? (
-          <span className="theme-icon sun-icon" />
-        ) : (
-          <span className="theme-icon moon-icon" />
-        )}
-      </button>
       <div className="mobile-nav">
         <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
           <span className="fa-solid--home"></span>

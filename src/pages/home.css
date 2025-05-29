@@ -6,6 +6,8 @@ body{
   color: #e5e7eb;
   margin: 0; /* Remove default body margin */
   padding: 0; /* Remove default body padding */
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 body.light-theme {
@@ -26,13 +28,13 @@ button:hover{
 }
 
 .main-content-wrapper {
-  margin-left: 27px;
-  padding-top: 82px;
-  min-height: 100vh;
+  padding-top: 0;
+  min-height: 120vh;
   background-color: transparent;
   transition: all 0.3s ease-in-out;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .main-content-wrapper.sidebar-closed {
@@ -45,6 +47,7 @@ button:hover{
   max-width: 800px;
   padding: 20px;
   background-color: transparent;
+  margin-top: 20px;
 }
 
 .search-results-title {
@@ -151,6 +154,21 @@ body.light-theme .post-card {
 }
 
 /* Responsive styles */
+@media (min-width: 769px) {
+  .main-content-wrapper {
+    position: fixed;
+    top: 56px;
+    left: 27px;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+  }
+  
+  .posts-container {
+    margin-top: 40px;
+  }
+}
+
 @media (max-width: 1200px) {
   .main-content-wrapper {
     margin-left: 280px;
@@ -175,22 +193,40 @@ body.light-theme .post-card {
 @media (max-width: 768px) {
   .main-content-wrapper {
     margin-left: 0;
-    padding-top: 70px;
+    padding-top: 0;
+    min-height: 100vh;
+    position: fixed;
+    top: 96px;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    overflow-y: auto;
   }
   
   .posts-container {
     max-width: 100%;
     padding: 15px;
+    margin-top: 0;
   }
 }
 
 @media (max-width: 480px) {
   .main-content-wrapper {
-    padding-top: 60px;
+    padding-top: 0;
+    min-height: 90vh;
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    overflow-y: auto;
   }
   
   .posts-container {
-    padding: 10px;
+    max-width: 100%;
+    padding: 15px;
+    margin-top: 0;
+    padding-bottom: 20px;
   }
 }
 

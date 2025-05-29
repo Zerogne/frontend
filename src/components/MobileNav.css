@@ -9,6 +9,7 @@
   padding: 8px 0;
   z-index: 1000;
   height: 60px;
+  margin-bottom: 0;
 }
 
 .nav-item {
@@ -87,13 +88,13 @@
 
 /* Theme toggle button styles */
 .theme-toggle-btn {
+  display: none;
   background: none;
   border: none;
   color: #fff;
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
-  display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
@@ -216,13 +217,11 @@ body.light-theme .theme-toggle-btn .moon-icon {
     justify-content: space-around;
     align-items: center;
     padding: 0 16px;
+    margin-bottom: 0;
   }
 
   .theme-toggle-btn {
-    position: fixed;
-    top: 27.5px;
-    right: 60px;
-    transform: translateY(-50%);
+    display: flex;
   }
 
   .theme-toggle-btn .sun-icon {

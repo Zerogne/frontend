@@ -32,8 +32,8 @@ const PostList = ({ searchQuery, schoolType }) => {
           try {
             const userName = await fetchUserInfo(post.userId);
             userNamesMap[post.userId] = userName;
-          } catch (error) {
-            console.error(`Error fetching user info for ${post.userId}:`, error);
+          } catch (err) {
+            console.error(`Error fetching user info for ${post.userId}:`, err?.stack || err?.message || err);
             userNamesMap[post.userId] = 'User';
           }
         }
@@ -51,24 +51,24 @@ const PostList = ({ searchQuery, schoolType }) => {
       console.log('Fetching user info for:', userId);
       const response = await fetch(`http://localhost:3000/api/users/${userId}`);
       console.log('User info response status:', response.status);
-      
+
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         console.error('Failed to fetch user info:', errorData);
-        throw new Error('Failed to fetch user info');
+        throw new Error(errorData.message || 'Failed to fetch user info');
       }
-      
+
       const userData = await response.json();
       console.log('Received user data:', userData);
-      
-      if (!userData || !userData.firstName || !userData.lastName) {
+
+      if (!userData?.firstName || !userData?.lastName) {
         console.error('User data incomplete or missing:', userData);
         return 'User';
       }
-      
+
       return `${userData.firstName} ${userData.lastName}`;
-    } catch (error) {
-      console.error('Error fetching user info:', error);
+    } catch (err) {
+      console.error('Error fetching user info:', err?.stack || err?.message || err);
       return 'User';
     }
   };
@@ -77,20 +77,22 @@ const PostList = ({ searchQuery, schoolType }) => {
     try {
       console.log('Fetching posts...');
       setLoading(true);
-      const response = await fetch('http://localhost:3000/api/posts');
-      const data = await response.json();
+      setError('');
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch posts');
+      const response = await fetch('http://localhost:3000/api/posts');
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !Array.isArray(data)) {
+        throw new Error(data?.message || 'Failed to fetch posts');
       }
 
       console.log('Received posts:', data);
       const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setPosts(sortedPosts);
-
     } catch (err) {
-      console.error('Error fetching posts:', err);
+      console.error('Error fetching posts:', err?.stack || err?.message || err);
       setError(err.message || 'Failed to load posts. Please try again.');
+      setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -105,25 +107,24 @@ const PostList = ({ searchQuery, schoolType }) => {
       const response = await fetch(`http://localhost:3000/api/posts/filter?schoolType=${encodeURIComponent(schoolType)}`);
       console.log('Filter response status:', response.status);
       
+      const data = await response.json();
+      console.log('Filter response data:', data);
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Filter error response:', errorData);
-        throw new Error(errorData.message || 'Failed to fetch filtered posts');
+        console.error('Filter error response:', data);
+        throw new Error(data?.message || 'Failed to fetch filtered posts');
       }
 
-      const data = await response.json();
-      console.log('Received filtered posts:', data);
-      
-      if (Array.isArray(data)) {
-        const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setPosts(sortedPosts);
-      } else {
-        throw new Error('Invalid response format');
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid response format from server');
       }
+
+      const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setPosts(sortedPosts);
 
     } catch (err) {
-      console.error('Error fetching filtered posts:', err);
-      setError(err.message || 'Failed to load filtered posts. Please try again.');
+      console.error('Error fetching filtered posts:', err?.message || err);
+      setError(err?.message || 'Failed to load filtered posts. Please try again.');
       setPosts([]);
     } finally {
       setLoading(false);
@@ -134,29 +135,31 @@ const PostList = ({ searchQuery, schoolType }) => {
     try {
       console.log('Fetching search results...');
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/posts/search?query=${encodeURIComponent(searchQuery)}`);
-      const data = await response.json();
+      setError('');
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch search results');
+      const response = await fetch(
+        `http://localhost:3000/api/posts/search?query=${encodeURIComponent(searchQuery)}`
+      );
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !Array.isArray(data)) {
+        throw new Error(data?.message || 'Failed to fetch search results');
       }
 
       console.log('Received search results:', data);
       const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setPosts(sortedPosts);
-
     } catch (err) {
-      console.error('Error fetching search results:', err);
+      console.error('Error fetching search results:', err?.stack || err?.message || err);
       setError(err.message || 'Failed to load search results. Please try again.');
+      setPosts([]);
     } finally {
       setLoading(false);
     }
   };
 
   const handlePostUpdated = (updatedPost) => {
-    setPosts(posts.map(post => 
-      post._id === updatedPost._id ? updatedPost : post
-    ));
+    setPosts(posts.map(post => (post._id === updatedPost._id ? updatedPost : post)));
   };
 
   const handleEditClick = (post) => {
@@ -169,21 +172,21 @@ const PostList = ({ searchQuery, schoolType }) => {
       setError('You must be logged in to delete a post');
       return;
     }
-    
+
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         const token = await user.getIdToken();
-        
-        const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-        });
+        const response = await fetch(
+          `http://localhost:3000/api/posts/${postId}`,
+          {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
 
+        const data = await response.json().catch(() => null);
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to delete post');
+          throw new Error(data?.message || 'Failed to delete post');
         }
 
         console.log('Post deleted successfully:', postId);
@@ -192,28 +195,17 @@ const PostList = ({ searchQuery, schoolType }) => {
           setIsModalOpen(false);
           setPostToEdit(null);
         }
-
       } catch (err) {
-        console.error('Error deleting post:', err);
+        console.error('Error deleting post:', err?.stack || err?.message || err);
         setError(err.message || 'Failed to delete post. Please try again.');
       }
     }
   };
 
   const getUserDisplayName = (post) => {
-    if (post.postAnonymously) {
-      return 'Anonymous';
-    }
-    if (user && user.uid && post.userId === user.uid) {
-      return 'You';
-    }
-    const displayName = post.userId ? userNames[post.userId] || 'Loading...' : 'User';
-    console.log(`Getting display name for post ${post?._id}:`, {
-      userId: post?.userId,
-      displayName,
-      userNames
-    });
-    return displayName;
+    if (post.postAnonymously) return 'Anonymous';
+    if (user?.uid && post.userId === user.uid) return 'You';
+    return userNames[post.userId] || 'Loading...';
   };
 
   const handleModalClose = () => {
@@ -222,32 +214,25 @@ const PostList = ({ searchQuery, schoolType }) => {
   };
 
   if (loading || loadingUser) return <div>Loading posts...</div>;
-  if (error || errorUser) return <div className="error-message">Error: {error || errorUser.message}</div>;
+  if (error || errorUser) return <div className="error-message">Error: {error || errorUser?.message}</div>;
 
   return (
     <div className="post-list-container">
-      {posts.map(post => {
-        console.log('Rendering post:', {
-          id: post._id,
-          title: post.title,
-          fullPost: post
-        });
-        return (
-          <PostBox 
-            key={post._id} 
-            post={{
-              ...post,
-              author: getUserDisplayName(post),
-              date: post.createdAt
-            }}
-            onEditClick={handleEditClick}
-            onDeleteClick={handleDeleteClick}
-            currentUserId={user?.uid}
-            onPostUpdated={handlePostUpdated}
-            fetchUserInfo={fetchUserInfo}
-          />
-        );
-      })}
+      {posts.map(post => (
+        <PostBox
+          key={post._id}
+          post={{
+            ...post,
+            author: getUserDisplayName(post),
+            date: post.createdAt
+          }}
+          onEditClick={handleEditClick}
+          onDeleteClick={handleDeleteClick}
+          currentUserId={user?.uid}
+          onPostUpdated={handlePostUpdated}
+          fetchUserInfo={fetchUserInfo}
+        />
+      ))}
 
       {isModalOpen && (
         <CreatePostModal

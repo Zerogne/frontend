@@ -8,12 +8,18 @@
   align-items: center;
   justify-content: flex-start;
   min-height: calc(100vh - 62px);
-  margin-top: 62px;
   box-sizing: border-box;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-left: -140px;
+  position: relative;
+  z-index: 1;
+}
+
+.post-list-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .loading, .error, .no-posts {
@@ -610,7 +616,7 @@ body:not(.light-theme) .menu-btn:hover {
     position: relative;
     left: 0;
     transform: none;
-    margin-top: 56px;
+    margin-top: 160px;
   }
 
   .post-card {
